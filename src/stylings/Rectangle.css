@@ -1,0 +1,6 @@
+.rect {
+  background-color: grey;
+  outline-style: solid;
+  outline-color: black;
+  outline-width: 1px;
+}

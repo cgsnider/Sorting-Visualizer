@@ -1,13 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
 export class SelectionBar extends Component {
-    render() {
-        return (
-            <div>
-                Options
-            </div>
-        )
-    }
+  render() {
+    return <header>Options</header>;
+  }
 }
 
-export default SelectionBar
+export default SelectionBar;

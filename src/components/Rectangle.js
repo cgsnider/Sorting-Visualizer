@@ -1,13 +1,12 @@
-import React, { Component } from 'react'
+import React from "react";
+import "../stylings/Rectangle.css";
 
-export class Rectangle extends Component {
-  render() {
-    return (
-      <div>
-        
-      </div>
-    )
-  }
+function Rectangle({ height, width }) {
+  const size = {
+    height: `${height}px`,
+    width: `${width}px`,
+  };
+  return <div className="rect" style={size}></div>;
 }
 
-export default Rectangle
+export default Rectangle;

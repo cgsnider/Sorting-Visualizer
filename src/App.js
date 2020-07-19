@@ -1,13 +1,12 @@
-import React from 'react'
-import Rectangle from './components/Rectangle';
-import SelectionBar from './components/SelectionBar';
-
-
+import React from "react";
+import RectangleCanvas from "./components/RectangleCanvas";
+import SelectionBar from "./components/SelectionBar";
 
 function App() {
   return (
     <div className="App">
       <SelectionBar />
+      <RectangleCanvas />
     </div>
   );
 }
