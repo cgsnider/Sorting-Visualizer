@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import RectangleCanvas from "./components/RectangleCanvas";
-import SelectionBar from "./components/SelectionBar";
+import OptionBar from "./components/OptionBar";
 import "./stylings/Default.css";
 
 export class App extends PureComponent {
@@ -53,7 +53,7 @@ export class App extends PureComponent {
     const { arr } = this.state;
     return (
       <div className="App">
-        <SelectionBar
+        <OptionBar
           arr={arr}
           setSortingMethod={this.setSortingMethod}
           toggleExecutingSort={this.toggleExecutingSort}

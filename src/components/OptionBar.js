@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../stylings/SelectionBar.css";
 import { selectionSort } from "./SortingButtons";
 
-class SelectionBar extends Component {
+class OptionBar extends Component {
   constructor(props) {
     super(props);
 
@@ -78,4 +78,4 @@ class Option {
   }
 }
 
-export default SelectionBar;
+export default OptionBar;
