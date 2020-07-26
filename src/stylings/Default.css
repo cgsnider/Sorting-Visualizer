@@ -1,8 +1,13 @@
-ul {
+/* ul {
   list-style-type: none;
-}
-ul li {
+} */
+
+.ulli {
   display: inline-block;
   margin-left: 20px;
   margin-right: 20;
+}
+
+.backGround {
+  background-color: darkslategray;
 }

@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import "../stylings/SelectionBar.css";
+import "../stylings/Default.css";
 import { selectionSort } from "./SortingButtons";
 
-class OptionBar extends Component {
+class OptionBar extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -50,22 +51,30 @@ class OptionBar extends Component {
     const { options } = this.state;
 
     return (
-      <header className="bar">
-        <ul>
-          {options.map((opt, id) => (
-            <li
-              key={id}
-              onMouseDown={() => this.optionHandler("click", id)}
-              onMouseUp={() => this.optionHandler("hover", id)}
-              onMouseOver={() => this.optionHandler("hover", id)}
-              onMouseLeave={() => this.optionHandler("norm", id)}
-              className={options[id].status}
-            >
-              {options[id].name}
-            </li>
-          ))}
-        </ul>
-      </header>
+      <ul
+        className="bar"
+        style={{
+          listStyleType: "none",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {options.map((opt, id) => (
+          <button
+            key={id}
+            onMouseDown={() => this.optionHandler("click", id)}
+            onMouseUp={() => this.optionHandler("hover", id)}
+            onMouseOver={() => this.optionHandler("hover", id)}
+            onMouseLeave={() => this.optionHandler("norm", id)}
+            className={options[id].status}
+            style={{ margin: "10px" }}
+          >
+            {options[id].name}
+          </button>
+        ))}
+      </ul>
     );
   }
 }

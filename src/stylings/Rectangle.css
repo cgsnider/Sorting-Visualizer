@@ -1,6 +1,6 @@
 .rect {
-  background-color: grey;
+  background-color: dodgerblue;
   outline-style: solid;
-  outline-color: black;
-  outline-width: 1px;
+  outline-color: maroon;
+  outline-width: 5px;
 }
