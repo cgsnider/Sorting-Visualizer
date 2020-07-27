@@ -2,89 +2,120 @@ import React, { PureComponent } from "react";
 import "../stylings/SelectionBar.css";
 import "../stylings/Default.css";
 import { selectionSort } from "./SortingButtons";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Button,
+  Typography,
+  Divider,
+  ButtonGroup,
+  Slider,
+  Grid,
+  Box,
+} from "@material-ui/core";
 
 class OptionBar extends PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      options: [
-        //new Option(name, is_a_sorting_method)
-        new Option("Selection", true),
-        new Option("Insertion", true),
-        new Option("Merge", true),
-        new Option("Quick", true),
-        new Option("Boggo", true),
-        new Option("Play", false),
-      ],
+      sortingOptions: ["Selection", "Insertion", "Merge", "Quick", "Boggo"],
     };
   }
 
-  optionHandler = (newStatus, buttonIDX) => {
-    this.updateOptions(newStatus, buttonIDX);
-    this.updatesApp(newStatus, buttonIDX);
-  };
-
-  updatesApp = (newStatus, buttonIDX) => {
-    const { setSortingMethod, toggleExecutingSort } = this.props;
-    if (newStatus == "click") {
-      if (this.state.options[buttonIDX].name !== "Play") {
-        setSortingMethod(this.state.options[buttonIDX].name.toLowerCase());
-      } else {
-        toggleExecutingSort();
-      }
-    }
-  };
-
-  updateOptions = (newStatus, buttonIDX) => {
-    const optionsTemp = this.state.options.slice();
-    optionsTemp[buttonIDX] = new Option(
-      optionsTemp[buttonIDX].name,
-      optionsTemp[buttonIDX].isSorting,
-      newStatus
-    );
-    this.setState({ options: optionsTemp });
-  };
-
   render() {
-    const { arr, setSortingMethod } = this.props;
-    const { options } = this.state;
-
+    const {
+      setSortingMethod,
+      toggleExecutingSort,
+      isExecutingSort,
+      toggleResetArr,
+      arrConstraints,
+      sortingSpeedConstraints,
+    } = this.props;
+    const { minLen, maxLen, defaultLen } = arrConstraints;
+    const { slowest, fastest, defaultSpeed } = sortingSpeedConstraints;
+    const { sortingOptions } = this.state;
     return (
-      <ul
-        className="bar"
-        style={{
-          listStyleType: "none",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {options.map((opt, id) => (
-          <button
-            key={id}
-            onMouseDown={() => this.optionHandler("click", id)}
-            onMouseUp={() => this.optionHandler("hover", id)}
-            onMouseOver={() => this.optionHandler("hover", id)}
-            onMouseLeave={() => this.optionHandler("norm", id)}
-            className={options[id].status}
-            style={{ margin: "10px" }}
-          >
-            {options[id].name}
-          </button>
-        ))}
-      </ul>
+      <>
+        <AppBar position="sticky">
+          <Box display="flex" flexDirection="row" justifyContent="space-evenly">
+            <Button onClick={toggleExecutingSort}>
+              <Typography>{isExecutingSort ? "Pause" : "Play"}</Typography>
+            </Button>
+
+            <Divider color="secondary" orientation="vertical" flexItem />
+
+            <ButtonGroup variant="text" disabled={isExecutingSort}>
+              {sortingOptions.map((opt, id) => (
+                <Button
+                  key={id}
+                  onClick={() => setSortingMethod(opt.toLowerCase())}
+                >
+                  <Typography>{opt}</Typography>
+                </Button>
+              ))}
+            </ButtonGroup>
+
+            <Divider color="secondary" orientation="vertical" flexItem />
+
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              width="12.5%"
+            >
+              <Typography>Array Size</Typography>
+
+              <Slider
+                onChange={this.lenSliderHandler}
+                disabled={isExecutingSort}
+                color="secondary"
+                marks={true}
+                min={minLen}
+                max={maxLen}
+                step={1}
+                defaultValue={defaultLen}
+              ></Slider>
+            </Box>
+
+            <Divider color="secondary" orientation="vertical" flexItem />
+
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              width="12.5%"
+            >
+              <Typography>Sorting Speed</Typography>
+
+              <Slider
+                color="secondary"
+                marks={true}
+                disabled={isExecutingSort}
+                max={fastest}
+                min={slowest}
+                step={1}
+                defaultValue={defaultSpeed}
+                onChange={this.speedSliderHandler}
+              ></Slider>
+            </Box>
+
+            <Divider color="secondary" orientation="vertical" flexItem />
+
+            <Button onClick={toggleResetArr} disabled={isExecutingSort}>
+              <Typography>Reset Array</Typography>
+            </Button>
+          </Box>
+        </AppBar>
+      </>
     );
   }
-}
 
-class Option {
-  constructor(name, isSorting, newStatus) {
-    this.name = name;
-    this.status = newStatus ? newStatus : "norm";
-    this.isSorting = isSorting;
-  }
+  speedSliderHandler = (event, newValue) => {
+    this.props.setSpeed(newValue);
+  };
+  lenSliderHandler = (event, newValue) => this.props.setArrLen(newValue);
 }
 
 export default OptionBar;

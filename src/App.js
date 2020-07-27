@@ -8,28 +8,55 @@ export class App extends PureComponent {
     super(props);
 
     this.state = {
-      arrLen: 30,
-      arrMinLen: 4,
-      arrMaxLen: 100,
+      arrConstraints: {
+        minLen: 4,
+        maxLen: 100,
+        defaultLen: 10,
+      },
+      arrLen: 10,
+      sortingSpeedConstraints: {
+        slowest: 0,
+        fastest: 2000,
+        speedBase: 2000,
+        defaultSpeed: 1000,
+      },
+      sortingSpeed: 1000,
       sortingMethod: null,
       isExecutingSort: false,
+      resetArr: false,
     };
   }
 
-  /** Lifecycle Methods */
-
   render() {
-    const { arrLen, isExecutingSort, sortingMethod } = this.state;
+    const {
+      arrLen,
+      isExecutingSort,
+      sortingMethod,
+      resetArr,
+      arrConstraints,
+      sortingSpeedConstraints,
+      sortingSpeed,
+    } = this.state;
     return (
-      <div className="App">
+      <div style={{ backgroundColor: "#323232" }}>
         <OptionBar
+          arrConstraints={arrConstraints}
           setSortingMethod={this.setSortingMethod}
           toggleExecutingSort={this.toggleExecutingSort}
+          isExecutingSort={isExecutingSort}
+          toggleResetArr={this.toggleResetArr}
+          setArrLen={this.setArrLen}
+          sortingSpeedConstraints={sortingSpeedConstraints}
+          setSpeed={this.setSpeed}
         />
         <RectangleCanvas
           arrLen={arrLen}
           isExecutingSort={isExecutingSort}
           sortingMethod={sortingMethod}
+          resetArr={resetArr}
+          toggleResetArr={this.toggleResetArr}
+          toggleExecutingSort={this.toggleExecutingSort}
+          sortingSpeed={sortingSpeed}
         />
       </div>
     );
@@ -39,9 +66,18 @@ export class App extends PureComponent {
 
   setSortingMethod = (method) => this.setState({ sortingMethod: method });
 
-  toggleExecutingSort = () => {
-    const { isExecutingSort } = this.state;
-    this.setState({ isExecutingSort: !isExecutingSort });
+  toggleExecutingSort = () =>
+    this.setState({ isExecutingSort: !this.state.isExecutingSort });
+
+  toggleResetArr = () => this.setState({ resetArr: !this.state.resetArr });
+
+  setArrLen = (newLen) => this.setState({ arrLen: newLen });
+
+  setSpeed = (newSpeed) => {
+    console.log(this.state.sortingSpeedConstraints.speedBase - newSpeed);
+    this.setState({
+      sortingSpeed: this.state.sortingSpeedConstraints.speedBase - newSpeed,
+    });
   };
 }
 

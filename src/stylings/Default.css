@@ -2,12 +2,12 @@
   list-style-type: none;
 } */
 
-.ulli {
+/* ulli {
   display: inline-block;
   margin-left: 20px;
   margin-right: 20;
-}
+} */
 
-.backGround {
-  background-color: darkslategray;
+.body {
+  background-color: "#323232";
 }

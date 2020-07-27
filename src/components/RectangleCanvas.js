@@ -19,7 +19,6 @@ export class RectangleCanvas extends PureComponent {
       keyReset: 1,
       finishedSorting: false,
       sortingIter: 0,
-      sortSpeed: 1000,
     };
   }
 
@@ -28,15 +27,23 @@ export class RectangleCanvas extends PureComponent {
   }
 
   componentDidUpdate() {
-    const { isExecutingSort } = this.props;
-    const { finishedSorting } = this.state;
+    const { isExecutingSort, resetArr, toggleResetArr, arrLen } = this.props;
+    const { finishedSorting, rectangleArr } = this.state;
+
+    if (arrLen != rectangleArr.length) {
+      this.resetRectArray();
+    }
+    if (resetArr) {
+      this.resetRectArray();
+      toggleResetArr();
+    }
     if (isExecutingSort && !finishedSorting) {
       this.chooseSortingAlgo();
     }
   }
 
   resetRectArray = () => {
-    const { rectangleArr, keyReset } = this.state;
+    const { keyReset } = this.state;
     let rectArrTemp = [];
     for (let i = 0; i < this.props.arrLen; i++) {
       rectArrTemp.push(this.generateRect((keyReset + i) / keyReset));
@@ -85,7 +92,8 @@ export class RectangleCanvas extends PureComponent {
   };
 
   iterableSort = (algorithm, startIndex) => {
-    const { rectangleArr, sortingIter, sortSpeed } = this.state;
+    const { rectangleArr, sortingIter } = this.state;
+    const { sortingSpeed } = this.props;
     const iteration = sortingIter + startIndex;
     if (iteration < rectangleArr.length) {
       setTimeout(
@@ -94,7 +102,7 @@ export class RectangleCanvas extends PureComponent {
             rectangleArr: algorithm(rectangleArr, iteration, Rect.compare),
             sortingIter: sortingIter + 1,
           }),
-        sortSpeed
+        sortingSpeed
       );
     } else {
       this.setState({
@@ -109,7 +117,6 @@ export class RectangleCanvas extends PureComponent {
     return (
       <ul
         style={{
-          backgroundColor: "#323232",
           minHeight: "100vh",
           listStyleType: "none",
           display: "flex",
