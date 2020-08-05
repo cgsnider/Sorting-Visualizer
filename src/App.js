@@ -66,8 +66,9 @@ export class App extends PureComponent {
 
   setSortingMethod = (method) => this.setState({ sortingMethod: method });
 
-  toggleExecutingSort = () =>
+  toggleExecutingSort = () => {
     this.setState({ isExecutingSort: !this.state.isExecutingSort });
+  };
 
   toggleResetArr = () => this.setState({ resetArr: !this.state.resetArr });
 

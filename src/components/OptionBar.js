@@ -1,7 +1,6 @@
 import React, { PureComponent } from "react";
 import "../stylings/SelectionBar.css";
 import "../stylings/Default.css";
-import { selectionSort } from "./SortingButtons";
 import {
   AppBar,
   Toolbar,

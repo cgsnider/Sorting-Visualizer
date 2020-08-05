@@ -1,7 +1,46 @@
 import React from "react";
-import "../stylings/rectangle.css";
 
-function Rectangle({ height, width, outlineWidth, outlineColor }) {
+class Rectangle {
+  constructor(height, width, id) {
+    this._id = id;
+    this._height = height;
+    this._width = width;
+    this._outlineColor = "maroon";
+    this._outlineWidth = 4;
+  }
+
+  setOutlineColor = (color) => (this._outlineColor = color);
+
+  getHeight = () => this._height;
+
+  getJSX = () => (
+    <Rect
+      height={this._height}
+      width={this._width}
+      outlineWidth={this._outlineWidth}
+      outlineColor={this._outlineColor}
+    />
+  );
+
+  getID = () => this._id;
+
+  static areMatchingArrays = (arr1, arr2) => {
+    if (arr1.length != arr2.length) return false;
+    for (let i = 0; i < arr1.length; i++)
+      if (!this.matching(arr1[i], arr2[i])) return false;
+    return true;
+  };
+
+  static matching = (rect1, rect2) => {
+    if (rect1.getID() == rect2.getID()) {
+      return true;
+    }
+  };
+
+  static compare = (rect1, rect2) => rect1.getHeight() > rect2.getHeight();
+}
+
+function Rect({ height, width, outlineWidth, outlineColor }) {
   const style = {
     backgroundColor: "dodgerblue",
     outlineColor: `${outlineColor}`,
