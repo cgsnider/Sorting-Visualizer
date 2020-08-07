@@ -8,10 +8,7 @@ export class SelectionSort extends Component {
     super(props);
     this.state = {
       rectArr: [],
-      outerIter: 0,
-      innerIter: 0,
-      selectIDX: 0,
-      isTickDone: false,
+      sortingProgress: [0, 0, 0], //[sortedIndex, checkingIndex, selectedIndex]
       isSorting: false,
       colors: {
         unsorted: "maroon",
@@ -27,10 +24,11 @@ export class SelectionSort extends Component {
   }
 
   componentDidUpdate() {
-    const { rectArr, isSorting } = this.state;
+    const { rectArr, isSorting, sortingProgress } = this.state;
     const { rectangleArr, isExecutingSort, toggleExecutingSort } = this.props;
-    if (isExecutingSort && !isSorting) {
-      this.sort();
+    if (!isSorting && isExecutingSort) {
+      let [sortedIndex, checkingIndex, selectedIndex] = sortingProgress;
+      this.sort(sortedIndex, checkingIndex, selectedIndex);
     }
   }
 
@@ -59,9 +57,9 @@ export class SelectionSort extends Component {
     );
   }
 
-  rectArrFromProps = () => {
-    const { rectangleArr } = this.props;
-  };
+  // rectArrFromProps = () => {
+  //   const { rectangleArr } = this.props;
+  // };
 
   // sort = () => {
   //   this.setState({ isSorting: true });
@@ -91,57 +89,57 @@ export class SelectionSort extends Component {
   //   toggleExecutingSort();
   // };
 
-  sort = () => {
-    this.setState({ isSorting: true });
-    console.log(this.state.rectArr.slice());
+  // sort = () => {
+  //   this.setState({ isSorting: true });
+  //   console.log(this.state.rectArr.slice());
 
-    const { rectArr, colors } = this.state;
-    const { toggleExecutingSort, sortingSpeed } = this.props;
-    const tempArr = rectArr.slice();
+  //   const { rectArr, colors } = this.state;
+  //   const { toggleExecutingSort, sortingSpeed } = this.props;
+  //   const tempArr = rectArr.slice();
 
-    for (let i = 0; i < tempArr.length; i++) {
-      let selectedIDX = i; //color change here
-      tempArr[i].setOutlineColor(colors.selected);
-      this.setState({ rectArr: tempArr }, () => {
-        for (let j = i + 1; j < tempArr.length; j++) {
-          if (Rectangle.compare(tempArr[selectedIDX], tempArr[j])) {
-            if (selectedIDX !== i) {
-              tempArr[selectedIDX].setOutlineColor(colors.check);
-            }
-            selectedIDX = j; //color change here
-            tempArr[i].setOutlineColor(colors.selected);
-            this.setState({ rectArr: tempArr });
-          } else {
-            tempArr[i].setOutlineColor(colors.check);
-            this.setState({ rectArr: tempArr });
-          }
-        }
-        if (selectedIDX !== i) {
-          [tempArr[i], tempArr[selectedIDX]] = [
-            tempArr[selectedIDX],
-            tempArr[i],
-          ];
+  //   for (let i = 0; i < tempArr.length; i++) {
+  //     let selectedIDX = i; //color change here
+  //     tempArr[i].setOutlineColor(colors.selected);
+  //     this.setState({ rectArr: tempArr }, () => {
+  //       for (let j = i + 1; j < tempArr.length; j++) {
+  //         if (Rectangle.compare(tempArr[selectedIDX], tempArr[j])) {
+  //           if (selectedIDX !== i) {
+  //             tempArr[selectedIDX].setOutlineColor(colors.check);
+  //           }
+  //           selectedIDX = j; //color change here
+  //           tempArr[i].setOutlineColor(colors.selected);
+  //           this.setState({ rectArr: tempArr });
+  //         } else {
+  //           tempArr[i].setOutlineColor(colors.check);
+  //           this.setState({ rectArr: tempArr });
+  //         }
+  //       }
+  //       if (selectedIDX !== i) {
+  //         [tempArr[i], tempArr[selectedIDX]] = [
+  //           tempArr[selectedIDX],
+  //           tempArr[i],
+  //         ];
 
-          this.setState({ rectArr: tempArr });
-        }
-        for (let z = i + 1; z < tempArr.length; z++) {
-          tempArr[z].setOutlineColor(colors.unsorted);
-        }
-        tempArr[i].setOutlineColor(colors.sorted);
-        this.setState({ rectArr: tempArr });
-      });
-    }
+  //         this.setState({ rectArr: tempArr });
+  //       }
+  //       for (let z = i + 1; z < tempArr.length; z++) {
+  //         tempArr[z].setOutlineColor(colors.unsorted);
+  //       }
+  //       tempArr[i].setOutlineColor(colors.sorted);
+  //       this.setState({ rectArr: tempArr });
+  //     });
+  //   }
 
-    toggleExecutingSort();
-  };
+  //   toggleExecutingSort();
+  // };
 
-  clock = (funct) => {
-    const { isExecutingSort, sortingSpeed } = this.props;
-    setTimeout(() => {
-      while (!isExecutingSort) {}
-      funct();
-    }, sortingSpeed);
-  };
+  // clock = (funct) => {
+  //   const { isExecutingSort, sortingSpeed } = this.props;
+  //   setTimeout(() => {
+  //     while (!isExecutingSort) {}
+  //     funct();
+  //   }, sortingSpeed);
+  // };
 
   // outerLoop = () => {
   //   const { outerIter, rectArr } = this.state;
@@ -230,14 +228,117 @@ export class SelectionSort extends Component {
   //   }
   // };
 
-  continueSort = (outerIndex, innerIndex) => {
+  sort = (sortedIDX, checkingIDX, selectedIDX) => {
+    this.setState({ isSorting: true });
+    this.continueSort(sortedIDX, checkingIDX, selectedIDX);
+  };
+
+  continueSort = (sortedIDX, checkingIDX, selectedIDX) => {
     const { rectArr } = this.state;
-    if (outerIndex === rectArr.length) {
-    } else if (innerIndex === rectArr.length) {
-    } else if (outerIndex === innerIndex) {
-    } else if (innerIndex < outerIndex) {
-    } else {
+    this.clock(sortedIDX, checkingIDX, selectedIDX, () => {
+      if (sortedIDX === rectArr.length) {
+        this.endSort();
+      } else if (checkingIDX === rectArr.length) {
+        this.incrementSortedIndex(
+          sortedIDX,
+          checkingIDX,
+          selectedIDX,
+          this.continueSort
+        );
+      } else if (checkingIDX === sortedIDX) {
+        this.beginSearch(
+          sortedIDX,
+          checkingIDX,
+          selectedIDX,
+          this.continueSort
+        );
+      } else if (checkingIDX > sortedIDX) {
+        this.search(sortedIDX, checkingIDX, selectedIDX, this.continueSort);
+      } else {
+        console.log("else");
+      }
+    });
+  };
+
+  endSort = () => {
+    this.props.toggleExecutingSort();
+    this.setState({ isSorting: false });
+  };
+
+  incrementSortedIndex = (sortedIDX, checkingIDX, selectedIDX, funct) => {
+    const { rectArr, colors } = this.state;
+    const tempArr = rectArr.slice();
+    if (selectedIDX > sortedIDX) {
+      [tempArr[sortedIDX], tempArr[selectedIDX]] = [
+        tempArr[selectedIDX],
+        tempArr[sortedIDX],
+      ];
     }
+    tempArr[sortedIDX].setOutlineColor(colors.sorted);
+    this.setState({ rectArr: tempArr }, () =>
+      funct(sortedIDX + 1, sortedIDX + 1, sortedIDX + 1)
+    );
+  };
+
+  beginSearch = (sortedIDX, checkingIDX, selectedIDX, funct) => {
+    const { rectArr, colors } = this.state;
+    const tempArr = rectArr.slice();
+    tempArr[checkingIDX].setOutlineColor(colors.selected);
+    for (let i = sortedIDX + 1; i < tempArr.length; i++)
+      tempArr[i].setOutlineColor(colors.unsorted);
+    this.setState(
+      (prevState) => ({
+        rectArr: tempArr,
+      }),
+      () => {
+        funct(sortedIDX, checkingIDX + 1, selectedIDX);
+      }
+    );
+  };
+
+  search = (sortedIDX, checkingIDX, selectedIDX, funct) => {
+    const { rectArr, colors } = this.state;
+    const tempArr = rectArr.slice();
+
+    if (Rectangle.compare(tempArr[selectedIDX], tempArr[checkingIDX])) {
+      if (selectedIDX !== sortedIDX) {
+        tempArr[selectedIDX].setOutlineColor(colors.check);
+      }
+      console.log("search");
+      tempArr[checkingIDX].setOutlineColor(colors.selected);
+      this.setState(
+        (prevState) => ({
+          rectArr: tempArr,
+        }),
+        () => funct(sortedIDX, checkingIDX + 1, checkingIDX)
+      );
+    } else {
+      tempArr[checkingIDX].setOutlineColor(colors.check);
+      this.setState(
+        (prevState) => ({
+          rectArr: tempArr,
+        }),
+        () => funct(sortedIDX, checkingIDX + 1, selectedIDX)
+      );
+    }
+  };
+
+  clock = (sortedIDX, checkingIDX, selectedIDX, funct) => {
+    const { sortingSpeed, isExecutingSort } = this.props;
+    if (isExecutingSort)
+      setTimeout(() => {
+        if (isExecutingSort) funct();
+        else
+          this.setState({
+            sortingProgress: [sortedIDX, checkingIDX, selectedIDX],
+            isSorting: false,
+          });
+      }, sortingSpeed);
+    else
+      this.setState({
+        sortingProgress: [sortedIDX, checkingIDX, selectedIDX],
+        isSorting: false,
+      });
   };
 }
 
