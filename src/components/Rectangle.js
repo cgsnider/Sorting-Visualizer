@@ -7,9 +7,12 @@ class Rectangle {
     this._width = width;
     this._outlineColor = "maroon";
     this._outlineWidth = 4;
+    this._backgroundColor = "dodgerblue";
   }
 
   setOutlineColor = (color) => (this._outlineColor = color);
+
+  setBackgroundColor = (color) => (this._backgroundColor = color);
 
   getHeight = () => this._height;
 
@@ -19,6 +22,7 @@ class Rectangle {
       width={this._width}
       outlineWidth={this._outlineWidth}
       outlineColor={this._outlineColor}
+      backgroundColor={this._backgroundColor}
     />
   );
 
@@ -40,9 +44,9 @@ class Rectangle {
   static compare = (rect1, rect2) => rect1.getHeight() > rect2.getHeight();
 }
 
-function Rect({ height, width, outlineWidth, outlineColor }) {
+function Rect({ height, width, outlineWidth, outlineColor, backgroundColor }) {
   const style = {
-    backgroundColor: "dodgerblue",
+    backgroundColor: `${backgroundColor}`,
     outlineColor: `${outlineColor}`,
     outlineStyle: "solid",
     height: `${height}px`,

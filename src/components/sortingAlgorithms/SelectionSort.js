@@ -25,7 +25,7 @@ export class SelectionSort extends Component {
 
   componentDidUpdate() {
     const { rectArr, isSorting, sortingProgress } = this.state;
-    const { rectangleArr, isExecutingSort, toggleExecutingSort } = this.props;
+    const { isExecutingSort } = this.props;
     if (!isSorting && isExecutingSort) {
       let [sortedIndex, checkingIndex, selectedIndex] = sortingProgress;
       this.sort(sortedIndex, checkingIndex, selectedIndex);

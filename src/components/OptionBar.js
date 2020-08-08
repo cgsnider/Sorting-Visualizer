@@ -18,9 +18,7 @@ class OptionBar extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      sortingOptions: ["Selection", "Insertion", "Merge", "Quick", "Boggo"],
-    };
+    this.state = {};
   }
 
   render() {
@@ -31,10 +29,10 @@ class OptionBar extends PureComponent {
       toggleResetArr,
       arrConstraints,
       sortingSpeedConstraints,
+      sortingOptions,
     } = this.props;
     const { minLen, maxLen, defaultLen } = arrConstraints;
     const { slowest, fastest, defaultSpeed } = sortingSpeedConstraints;
-    const { sortingOptions } = this.state;
     return (
       <>
         <AppBar position="sticky">
@@ -47,10 +45,7 @@ class OptionBar extends PureComponent {
 
             <ButtonGroup variant="text" disabled={isExecutingSort}>
               {sortingOptions.map((opt, id) => (
-                <Button
-                  key={id}
-                  onClick={() => setSortingMethod(opt.toLowerCase())}
-                >
+                <Button key={id} onClick={() => setSortingMethod(id)}>
                   <Typography>{opt}</Typography>
                 </Button>
               ))}

@@ -8,6 +8,7 @@ export class App extends PureComponent {
     super(props);
 
     this.state = {
+      sortingOptions: ["Selection", "Insertion", "Merge", "Quick", "Boggo"],
       arrConstraints: {
         minLen: 4,
         maxLen: 100,
@@ -36,6 +37,7 @@ export class App extends PureComponent {
       arrConstraints,
       sortingSpeedConstraints,
       sortingSpeed,
+      sortingOptions,
     } = this.state;
     return (
       <div style={{ backgroundColor: "#323232" }}>
@@ -48,6 +50,7 @@ export class App extends PureComponent {
           setArrLen={this.setArrLen}
           sortingSpeedConstraints={sortingSpeedConstraints}
           setSpeed={this.setSpeed}
+          sortingOptions={sortingOptions}
         />
         <RectangleCanvas
           arrLen={arrLen}

@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import Rectangle from "./Rectangle";
 import SelectionSort from "./sortingAlgorithms/SelectionSort";
+import InsertionSort from "./sortingAlgorithms/InsertionSort";
 
 export class RectangleCanvas extends PureComponent {
   constructor(props) {
@@ -31,7 +32,7 @@ export class RectangleCanvas extends PureComponent {
     const { rectangleArr, arrKey } = this.state;
     const { isExecutingSort, toggleExecutingSort, sortingSpeed } = this.props;
     return (
-      <SelectionSort
+      <InsertionSort
         key={arrKey}
         rectangleArr={rectangleArr}
         isExecutingSort={isExecutingSort}
