@@ -78,7 +78,7 @@ export class App extends PureComponent {
   setArrLen = (newLen) => this.setState({ arrLen: newLen });
 
   setSpeed = (newSpeed) => {
-    console.log(this.state.sortingSpeedConstraints.speedBase - newSpeed);
+    // console.log(this.state.sortingSpeedConstraints.speedBase - newSpeed);
     this.setState({
       sortingSpeed: this.state.sortingSpeedConstraints.speedBase - newSpeed,
     });
