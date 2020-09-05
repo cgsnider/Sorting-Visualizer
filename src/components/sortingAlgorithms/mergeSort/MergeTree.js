@@ -20,19 +20,6 @@ export class MergeTree {
     this.mergingNode = null;
   }
 
-  //  grow = () => {
-  //    let stemNode = this.root;
-  //    while (stemNode.left) {
-  //     if (stemNode.array.length == 1 || stemNode.right) {
-  //       stemNode = stemNode.parentNode.right;
-  //      }
-  //     stemNode = stemNode.left
-  //    }
-
-  //  }
-
-  // }
-
   grow = () => {
     return this.groweR(this.newestStem);
   };
@@ -126,44 +113,6 @@ export class MergeTree {
   autoMerge = (compare) => {
     return this.merge(this.mergingNode, compare);
   };
-
-  // class MergeTree {
-  //   /***
-  //    * Creates a BinaryTree object.
-  //    * @param isSubArray a function that returns true if param B is a subArray of param A
-  //    */
-  //   constructor(isSubArray) {
-  //     this.root = null;
-  //     this.isSubArray = isSubArray;
-  //   }
-
-  //   /** Adds the array wrapped in a Node if it is a subArray of the root Node*/
-  //   add(array) {
-  //     if (this.root === null) {
-  //       this.root = new Node(array);
-  //     } else if (this.isSubArray(array, this.root.data)) {
-  //       const parent = this.getNode(array);
-  //       if (!parent.left) {
-  //         parent.left = new Node(array);
-  //       } else if (!parent.right) parent.right = new Node(array);
-  //     }
-  //   }
-  //   /** searches the tree for the smallest array to which the param array is a sub array of
-  //    * @param node the node the search is starting from
-  //    * @param array the subArray
-  //    * @return the smalles array that contains the param array
-  //    */
-  //   searchTree(node, array) {
-  //     if (this.isSubArray(node.left.data, array))
-  //       return this.searchNode(node.left, array);
-  //     else if (this.isSubArray(node.right.data, array))
-  //       return this.searchNode(node.right, array);
-  //     else return node;
-  //   }
-  //   /** Searches the entire tree until it finds the node with the smallest array that contains the param array*/
-  //   getNode(array) {
-  //     return this.searchTree(this.root, array);
-  //   }
 }
 
 export default MergeTree;
