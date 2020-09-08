@@ -8,7 +8,7 @@ export class App extends PureComponent {
     super(props);
 
     this.state = {
-      sortingOptions: ["Selection", "Insertion", "Merge", "Quick", "Boggo"],
+      sortingOptions: ["Selection", "Insertion", "Merge"],
       arrConstraints: {
         minLen: 4,
         maxLen: 100,
