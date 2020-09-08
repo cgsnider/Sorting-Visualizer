@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Box, ThemeProvider } from "@material-ui/core";
 import Rectangle from "../Rectangle";
-import memoize from "lodash/memoize";
 
 export class SelectionSort extends Component {
   constructor(props) {
@@ -172,20 +171,3 @@ export class SelectionSort extends Component {
 }
 
 export default SelectionSort;
-
-const selectionSort = (arr, compare) => {
-  const tempArr = arr.slice();
-  for (let i = 0; i < tempArr.length; i++) {
-    let selectedIDX = i;
-
-    for (let j = i + 1; j < tempArr.length; j++) {
-      if (compare(tempArr[selectedIDX], tempArr[j])) {
-        selectedIDX = j;
-      }
-    }
-    if (selectedIDX !== i) {
-      [tempArr[i], tempArr[selectedIDX]] = [tempArr[selectedIDX], tempArr[i]];
-    }
-  }
-  return tempArr;
-};

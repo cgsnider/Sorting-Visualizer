@@ -22,9 +22,10 @@ export class App extends PureComponent {
         defaultSpeed: 1000,
       },
       sortingSpeed: 1000,
-      sortingMethod: null,
+      sortingMethod: 0,
       isExecutingSort: false,
       resetArr: false,
+      updated: true,
     };
   }
 
@@ -38,6 +39,8 @@ export class App extends PureComponent {
       sortingSpeedConstraints,
       sortingSpeed,
       sortingOptions,
+      updated,
+      isUpdated,
     } = this.state;
     return (
       <div style={{ backgroundColor: "#323232" }}>
@@ -53,6 +56,9 @@ export class App extends PureComponent {
           sortingOptions={sortingOptions}
         />
         <RectangleCanvas
+          isUpdated={this.isUpdated}
+          updated={updated}
+          sortingOptions={sortingOptions}
           arrLen={arrLen}
           isExecutingSort={isExecutingSort}
           sortingMethod={sortingMethod}
@@ -67,20 +73,28 @@ export class App extends PureComponent {
 
   /** Non-Lifecycle Methods */
 
-  setSortingMethod = (method) => this.setState({ sortingMethod: method });
+  isUpdated = (update) => this.setState({ updated: update });
+
+  setSortingMethod = (method) =>
+    this.setState({ sortingMethod: method, updated: false });
 
   toggleExecutingSort = () => {
-    this.setState({ isExecutingSort: !this.state.isExecutingSort });
+    this.setState({
+      isExecutingSort: !this.state.isExecutingSort,
+      updated: false,
+    });
   };
 
-  toggleResetArr = () => this.setState({ resetArr: !this.state.resetArr });
+  toggleResetArr = (funct) =>
+    this.setState({ resetArr: !this.state.resetArr, updated: false }, funct);
 
-  setArrLen = (newLen) => this.setState({ arrLen: newLen });
+  setArrLen = (newLen) => this.setState({ arrLen: newLen, updated: false });
 
   setSpeed = (newSpeed) => {
     // console.log(this.state.sortingSpeedConstraints.speedBase - newSpeed);
     this.setState({
       sortingSpeed: this.state.sortingSpeedConstraints.speedBase - newSpeed,
+      updated: false,
     });
   };
 }

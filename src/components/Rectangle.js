@@ -12,6 +12,8 @@ class Rectangle {
 
   setOutlineColor = (color) => (this._outlineColor = color);
 
+  getOutlineColor = () => this._outlineColor;
+
   getBgColor = () => this._backgroundColor;
 
   setBgColor = (color) => (this._backgroundColor = color);

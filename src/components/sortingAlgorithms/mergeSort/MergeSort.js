@@ -81,7 +81,6 @@ export class MergeSort extends Component {
             const { subArrayIndex, endingIndex } = indices;
             const { red, green, blue } = mergeTree.newestStem.arrayColor;
             let newColor;
-            console.log(mergeTree.newestStem.arrayColor);
             if (mergeTree.newestStem.parentNode.left == mergeTree.newestStem) {
               newColor = {
                 red: red,
@@ -91,7 +90,6 @@ export class MergeSort extends Component {
                     (Math.log(tempArr.length) / Math.log(2)),
                 blue: blue,
               };
-              console.log(newColor, "left");
             } else {
               newColor = {
                 red:
@@ -101,7 +99,6 @@ export class MergeSort extends Component {
                 green: green,
                 blue: blue,
               };
-              console.log(newColor, "right");
             }
             mergeTree.newestStem.arrayColor = newColor;
             for (let i = subArrayIndex; i < endingIndex; i++) {
